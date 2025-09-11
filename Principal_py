@@ -1,0 +1,118 @@
+import datetime
+
+# Clase base Mascota
+class Mascota:
+    def __init__(self, nombre, fecha_nacimiento=None):
+        self.nombre = nombre
+        self.fecha_nacimiento = fecha_nacimiento if fecha_nacimiento else datetime.datetime.now().strftime("%d/%m/%y")
+        self.estado_hambre = 100
+        self.estado_sueno = 100
+        self.estado_suciedad = 0
+        self.estado_felicidad = 100
+
+    def get_fecha(self):
+        print(f"Fecha de nacimiento de {self.nombre}: {self.fecha_nacimiento}")
+
+    def alimentar(self):
+        if self.estado_hambre >= 100:
+            print(f"{self.nombre} ya esta lleno")
+        else:
+            self.estado_hambre += 20
+            if self.estado_hambre > 100:
+                self.estado_hambre = 100
+            print(f"Has alimentado a {self.nombre}. Hambre ahora: {self.estado_hambre}/100")
+
+    def estado(self):
+        print(f"""
+        --- Estado de {self.nombre} ---
+        Hambre: {self.estado_hambre}/100
+        Sueno: {self.estado_sueno}/100
+        Suciedad: {self.estado_suciedad}/100
+        Felicidad: {self.estado_felicidad}/100
+        """)
+
+    def accion(self):
+        return "Hace algo..."
+
+
+# Subclases con herencia
+class Ave(Mascota):
+    def accion(self):
+        return f"{self.nombre} esta volando"
+
+
+class Reptil(Mascota):
+    def accion(self):
+        return f"{self.nombre} se arrastra lentamente"
+
+
+class Pez(Mascota):
+    def accion(self):
+        return f"{self.nombre} nada felizmente"
+
+
+class Anfibio(Mascota):
+    def accion(self):
+        return f"{self.nombre} nada y salta"
+
+
+class Mamifero(Mascota):
+    def accion(self):
+        return f"{self.nombre} corre rapido"
+
+
+# Menu principal
+def menu():
+    print("""
+    === TIPOS DE MASCOTA ===
+    1. Ave
+    2. Reptil
+    3. Pez
+    4. Anfibio
+    5. Mamifero
+    """)
+    tipo = input("Elige el tipo de mascota: ")
+
+    nombre = input("Ingresa el nombre de tu mascota: ")
+
+    if tipo == "1":
+        mascota = Ave(nombre)
+    elif tipo == "2":
+        mascota = Reptil(nombre)
+    elif tipo == "3":
+        mascota = Pez(nombre)
+    elif tipo == "4":
+        mascota = Anfibio(nombre)
+    elif tipo == "5":
+        mascota = Mamifero(nombre)
+    else:
+        print("Tipo no valido, se creara como Mamifero por defecto.")
+        mascota = Mamifero(nombre)
+
+    while True:
+        print("""
+        === MENU DE MASCOTA ===
+        1. Ver estado
+        2. Alimentar
+        3. Ver fecha de nacimiento
+        4. Accion especial
+        5. Salir
+        """)
+        opcion = input("Elige una opcion: ")
+
+        if opcion == "1":
+            mascota.estado()
+        elif opcion == "2":
+            mascota.alimentar()
+        elif opcion == "3":
+            mascota.get_fecha()
+        elif opcion == "4":
+            print(mascota.accion())
+        elif opcion == "5":
+            print("Saliendo del juego...")
+            break
+        else:
+            print("Opcion no valida, intenta de nuevo.")
+
+
+menu()
